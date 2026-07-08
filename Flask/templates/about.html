@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}About - Human Development Index Predictor{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10 animate-fade-in-up">
+        <img src="{{ url_for('static', filename='hdi_logo.png') }}"
+             alt="HDI Logo"
+             class="w-20 h-20 object-contain mx-auto mb-4 drop-shadow-lg">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-stone-800 dark:text-slate-100 mb-2">About HDI Predictor</h1>
+        <p class="text-stone-500 dark:text-slate-400">Understanding global human development through machine learning</p>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8 mb-6 animate-fade-in-up">
+        <h2 class="text-xl font-bold mb-4 text-amber-700 dark:text-violet-400">What is HDI?</h2>
+        <p class="text-stone-600 dark:text-slate-300 leading-relaxed mb-4">
+            The Human Development Index (HDI) is a composite measure of life expectancy, education, and per capita income — ranking countries into four development tiers.
+        </p>
+        <p class="text-stone-600 dark:text-slate-300 leading-relaxed">
+            This project uses a Linear Regression model trained on real-world HDI data to deliver instant predictions with interactive charts, confidence scores, and batch CSV processing.
+        </p>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold mb-4 text-amber-700 dark:text-violet-400">Technology Stack</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {% for name, role in [('Flask', 'Backend'), ('Python', 'Core'), ('Scikit-learn', 'ML'), ('Pandas', 'Data'), ('TailwindCSS', 'UI'), ('Chart.js', 'Visualisation')] %}
+            <div class="rounded-xl p-3 text-center
+                        bg-cream-100/70 dark:bg-galaxy-800/50
+                        border border-amber-200/50 dark:border-violet-800/40">
+                <p class="font-bold text-amber-700 dark:text-violet-400">{{ name }}</p>
+                <p class="text-xs text-stone-400 dark:text-slate-500 mt-0.5">{{ role }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8 mb-6">
+        <h2 class="text-xl font-bold mb-4 text-amber-700 dark:text-violet-400">Model Performance</h2>
+        <div class="space-y-3">
+            {% for label, value in [('R² Score', '0.9582'), ('MAE', '0.0216'), ('RMSE', '0.0326'), ('MSE', '0.0011')] %}
+            <div class="flex justify-between items-center py-2
+                        border-b border-amber-200/40 dark:border-violet-900/40 last:border-0">
+                <span class="text-stone-600 dark:text-slate-300">{{ label }}</span>
+                <span class="font-bold text-amber-700 dark:text-violet-400">{{ value }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="text-sm text-stone-400 dark:text-slate-500 mt-4">The model explains ~96% of variance in HDI scores on the test set.</p>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8 text-center">
+        <h2 class="text-xl font-bold mb-3 text-stone-800 dark:text-slate-100">Ready to explore?</h2>
+        <p class="text-stone-500 dark:text-slate-400 mb-6">Input development indicators and get instant HDI predictions with beautiful visualizations.</p>
+        <a href="/predict" class="btn-glow inline-flex items-center gap-2 px-8 py-3 rounded-xl text-white font-semibold">
+            Start Predicting Now
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+        </a>
+    </div>
+</div>
+{% endblock %}

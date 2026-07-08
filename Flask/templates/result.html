@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result - Human Development Index Predictor{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto animate-fade-in-up">
+    <div class="text-center mb-8">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-3">Analysis Complete</span>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">Prediction Result</h1>
+        <p class="text-slate-600 dark:text-slate-400 mt-2">Your HDI analysis with interactive visualizations</p>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8">
+        <div class="flex flex-col lg:flex-row gap-8 mb-8">
+            <div class="lg:w-1/3 text-center">
+                <div class="relative mx-auto w-52 h-52">
+                    <canvas id="result-radial-chart"
+                        data-score="{{ hdi_score }}"
+                        data-color="{{ color }}"
+                        data-health="{{ components.life_expectancy_index }}"
+                        data-education="{{ components.education_index }}"
+                        data-income="{{ components.income_index }}"></canvas>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <span class="text-5xl font-extrabold" style="color: {{ color }}">{{ hdi_score }}</span>
+                        <span class="text-sm text-slate-500 dark:text-slate-400">HDI Score</span>
+                    </div>
+                </div>
+                <p class="mt-4 text-2xl font-bold" style="color: {{ color }}">{{ category }} Development</p>
+                <div class="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    Model Confidence: <strong>{{ confidence }}%</strong>
+                </div>
+            </div>
+
+            <div class="lg:w-2/3 space-y-6">
+                <div class="rounded-xl p-5 border border-white/30 dark:border-slate-700/50 bg-white/40 dark:bg-slate-800/30">
+                    <h3 class="font-bold mb-3 text-slate-800 dark:text-white">Category Explanation</h3>
+                    {% if category == "Very High" %}
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">Exceptional human development with high life expectancy, strong education systems, and substantial economic prosperity.</p>
+                    {% elif category == "High" %}
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">Strong development across health, education, and income — a well-developed society with good living standards.</p>
+                    {% elif category == "Medium" %}
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">Moderate development with clear growth potential in education, health, or income dimensions.</p>
+                    {% else %}
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">Significant development challenges requiring targeted interventions and international support.</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-600 dark:text-slate-300">Health Index</span>
+                            <span class="font-semibold">{{ (components.life_expectancy_index * 100) | round | int }}%</span>
+                        </div>
+                        <div class="h-2.5 rounded-full bg-slate-200/70 dark:bg-slate-700/70 overflow-hidden">
+                            <div class="progress-bar h-full rounded-full bg-emerald-500" data-width="{{ (components.life_expectancy_index * 100) | round }}%" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-600 dark:text-slate-300">Education Index</span>
+                            <span class="font-semibold">{{ (components.education_index * 100) | round | int }}%</span>
+                        </div>
+                        <div class="h-2.5 rounded-full bg-slate-200/70 dark:bg-slate-700/70 overflow-hidden">
+                            <div class="progress-bar h-full rounded-full bg-blue-500" data-width="{{ (components.education_index * 100) | round }}%" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-600 dark:text-slate-300">Income Index</span>
+                            <span class="font-semibold">{{ (components.income_index * 100) | round | int }}%</span>
+                        </div>
+                        <div class="h-2.5 rounded-full bg-slate-200/70 dark:bg-slate-700/70 overflow-hidden">
+                            <div class="progress-bar h-full rounded-full bg-amber-500" data-width="{{ (components.income_index * 100) | round }}%" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="rounded-xl p-4 bg-white/50 dark:bg-slate-800/40 border border-white/30 dark:border-slate-700/50 hover:scale-[1.02] transition-transform">
+                <p class="text-xs uppercase tracking-wide text-slate-500">Life Expectancy</p>
+                <p class="text-2xl font-bold text-slate-800 dark:text-white">{{ life_expectancy }} yrs</p>
+            </div>
+            <div class="rounded-xl p-4 bg-white/50 dark:bg-slate-800/40 border border-white/30 dark:border-slate-700/50 hover:scale-[1.02] transition-transform">
+                <p class="text-xs uppercase tracking-wide text-slate-500">Expected Schooling</p>
+                <p class="text-2xl font-bold text-slate-800 dark:text-white">{{ expected_schooling }} yrs</p>
+            </div>
+            <div class="rounded-xl p-4 bg-white/50 dark:bg-slate-800/40 border border-white/30 dark:border-slate-700/50 hover:scale-[1.02] transition-transform">
+                <p class="text-xs uppercase tracking-wide text-slate-500">Mean Schooling</p>
+                <p class="text-2xl font-bold text-slate-800 dark:text-white">{{ mean_schooling }} yrs</p>
+            </div>
+            <div class="rounded-xl p-4 bg-white/50 dark:bg-slate-800/40 border border-white/30 dark:border-slate-700/50 hover:scale-[1.02] transition-transform">
+                <p class="text-xs uppercase tracking-wide text-slate-500">GNI Per Capita</p>
+                <p class="text-2xl font-bold text-slate-800 dark:text-white">${{ "{:,.0f}".format(gni_per_capita) }}</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="chart-container rounded-xl bg-white/40 dark:bg-slate-800/30 p-4 border border-white/20 dark:border-slate-700/50">
+                <h4 class="text-sm font-semibold mb-3 text-slate-700 dark:text-slate-200">Component Breakdown</h4>
+                <canvas id="result-bar-chart"></canvas>
+            </div>
+            <div class="chart-container rounded-xl bg-white/40 dark:bg-slate-800/30 p-4 border border-white/20 dark:border-slate-700/50">
+                <h4 class="text-sm font-semibold mb-3 text-slate-700 dark:text-slate-200">Development Radar</h4>
+                <canvas id="result-radar-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="rounded-xl p-5 bg-indigo-500/5 border border-indigo-500/15 mb-8">
+            <h3 class="font-bold mb-3 text-slate-800 dark:text-white">Key Insights</h3>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                <li><strong class="text-slate-800 dark:text-white">Health:</strong> Life expectancy of {{ life_expectancy }} years reflects population health infrastructure.</li>
+                <li><strong class="text-slate-800 dark:text-white">Education Gap:</strong> Expected ({{ expected_schooling }}) vs mean ({{ mean_schooling }}) schooling shows attainment potential.</li>
+                <li><strong class="text-slate-800 dark:text-white">Economy:</strong> GNI per capita of ${{ "{:,.0f}".format(gni_per_capita) }} indicates economic prosperity.</li>
+            </ul>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+            <a href="/predict" class="btn-glow flex-1 py-3 rounded-xl text-white font-semibold text-center">Make Another Prediction</a>
+            <a href="/" class="flex-1 py-3 rounded-xl font-semibold text-center bg-white/50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 hover:border-indigo-400/40 transition-all">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/result.js') }}"></script>
+{% endblock %}

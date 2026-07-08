@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HDI Predictor{% endblock %} — ML Dashboard</title>
+    <!-- Favicon: use the HDI logo itself -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='hdi_logo.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50:  '#fdfaf5',
+                            100: '#f7f0e3',
+                            200: '#eee0c4',
+                        },
+                        beige: {
+                            400: '#c9a96e',
+                            500: '#b8935a',
+                        },
+                        galaxy: {
+                            900: '#05040f',
+                            800: '#0a0820',
+                            700: '#100d2e',
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-app min-h-screen text-slate-100">
+
+    <!-- ── Shooting stars ── -->
+    <div>
+        <div class="shooting-star" style="top: 12%; left: 5%;  animation-delay: 0s;   animation-duration: 5s;"></div>
+        <div class="shooting-star" style="top: 8%;  left: 30%; animation-delay: 2.5s; animation-duration: 7s;"></div>
+        <div class="shooting-star" style="top: 20%; left: 60%; animation-delay: 5s;   animation-duration: 6s;"></div>
+    </div>
+
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- ── Logo ── -->
+                <a href="/" class="flex items-center gap-3 group select-none">
+                    <!-- Pulse ring -->
+                    <div class="relative flex-shrink-0">
+                        <span class="logo-pulse-ring absolute inset-[-5px] rounded-2xl border-2
+                                     border-violet-400/40 pointer-events-none"></span>
+                        <!-- Logo tile -->
+                        <div class="logo-tile relative w-12 h-12 rounded-2xl overflow-hidden
+                                    shadow-lg shadow-violet-700/40
+                                    group-hover:scale-[1.07] group-hover:shadow-violet-500/50
+                                    transition-all duration-300 ease-out border border-violet-700/40
+                                    bg-galaxy-800">
+                            <!-- Shimmer sweep on hover -->
+                            <div class="logo-shimmer pointer-events-none absolute inset-0 w-1/3 h-full
+                                        bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+                            <!-- HDI logo image -->
+                            <img src="{{ url_for('static', filename='hdi_logo.png') }}"
+                                 alt="HDI Logo"
+                                 class="w-full h-full object-contain p-0.5">
+                        </div>
+                    </div>
+                    <!-- Wordmark -->
+                    <div class="flex flex-col">
+                        <span class="font-extrabold text-[15px] leading-none tracking-tight
+                                     text-slate-100
+                                     group-hover:text-violet-300
+                                     transition-colors duration-200">HDI Predictor</span>
+                        <span class="logo-sub mt-0.5 text-[10px] font-semibold tracking-[0.15em] uppercase">ML Dashboard</span>
+                    </div>
+                </a>
+
+                <!-- ── Nav links ── -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="/"
+                        class="nav-link text-sm font-medium text-slate-300
+                               hover:text-violet-300
+                               {% if request.path == '/' %}active text-violet-300{% endif %}">Home</a>
+                    <a href="/predict"
+                        class="nav-link text-sm font-medium text-slate-300
+                               hover:text-violet-300
+                               {% if request.path.startswith('/predict') %}active text-violet-300{% endif %}">Predict</a>
+                    <a href="/about"
+                        class="nav-link text-sm font-medium text-slate-300
+                               hover:text-violet-300
+                               {% if request.path == '/about' %}active text-violet-300{% endif %}">About</a>
+                </div>
+
+                <!-- ── Right controls ── -->
+                <div class="flex items-center gap-3">
+                    <a href="/predict"
+                        class="btn-glow hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-semibold">
+                        Predict Now
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="relative z-10 border-t border-violet-900/40 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <!-- Logo + name -->
+                <div class="flex items-center gap-3">
+                    <img src="{{ url_for('static', filename='hdi_logo.png') }}"
+                         alt="HDI Logo" class="w-9 h-9 object-contain">
+                    <div class="text-center md:text-left">
+                        <p class="font-semibold text-slate-200 text-sm">Human Development Index Predictor</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Developed by Sandeep</p>
+                    </div>
+                </div>
+                <!-- Links -->
+                <div class="flex items-center gap-6 text-sm">
+                    <a href="{{ config.GITHUB_URL }}" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-2 text-slate-400
+                               hover:text-violet-300 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.395-.135-.345-.72-1.395-1.23-1.875-.42-.405-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        GitHub Repository
+                    </a>
+                    <span class="text-slate-700">|</span>
+                    <span class="text-slate-500">&copy; 2026 HDI Predictor</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- theme.js removed — galaxy theme is permanent -->
+    {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>
