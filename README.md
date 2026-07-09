@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="Flask/static/hdi_logo.png" alt="HDI Predictor Logo" width="160"/>
+  <img src="5. Project Development Phase\Human Development Index Code Files\Flask\static\hdi_logo.png" alt="HDI Predictor Logo" width="160"/>
 
   # 🌌 Human Development Index Predictor
 
