@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="5. Project Development Phase\Human Development Index Code Files\Flask\static\hdi_logo.png" alt="HDI Predictor Logo" width="160"/>
+  <img src="5. Project Development Phase/Human Development Index Code Files/Flask/static/hdi_logo.png" alt="HDI Predictor Logo" width="160"/>
 
   # 🌌 Human Development Index Predictor
 
@@ -27,81 +27,143 @@ The **HDI Predictor** uses a Linear Regression model (R² = **0.9582**) trained 
 
 ---
 
-## ✨ Features
+## 🗂️ Project Structure & SDLC Lifecycle
+
+This repository is structured around a complete 8-phase Systems Development Lifecycle (SDLC) representing the journey from initial brainstorming to final demonstration.
+
+```
+HDI/
+│
+├── 1. Brainstorming & Ideation/              # Phase 1: Problem statements & empathy maps
+│   ├── Brainstorming- Idea Generation.pdf
+│   ├── Define Problem Statements Template.pdf
+│   └── Empathy Map Canvas.pdf
+│
+├── 2. Requirement Analysis/                  # Phase 2: User stories, maps & requirements
+│   ├── Customer Journey Map HDI.pdf
+│   ├── Data Flow Diagrams and User Stories.pdf
+│   ├── Filled_Technology_Stack_HDI.pdf
+│   └── Solution Requirements HDI.pdf
+│
+├── 3. Project Design Phase/                  # Phase 3: Solution architecture & designs
+│   ├── Project Design Phase - fit templte.pdf
+│   ├── Project Design Phase - proposed solution.pdf
+│   └── Project Design Phase- solution arcitecture.pdf
+│
+├── 4. Project Planning Phase/                # Phase 4: Project plans & planning logic
+│   ├── Planning logic.pdf
+│   ├── Project Planning Phase - templete.pdf
+│   └── Technology Stack - Template.pdf
+│
+├── 5. Project Development Phase/             # Phase 5: Code layout & codebase directory
+│   ├── Code Layout Readability Reusability.pdf
+│   ├── Coding and Solution.pdf
+│   ├── GenAI Functional & Performance Testing.pdf
+│   │
+│   └── Human Development Index Code Files/   # ← Application Source Code Root
+│       ├── Dataset/                          # Datasets (raw & preprocessed)
+│       │   ├── HDI.csv                       # Raw UN dataset
+│       │   └── HDI_Cleaned.csv               # Preprocessed, imputed dataset
+│       │
+│       ├── Flask/                            # Flask Web Application
+│       │   ├── app.py                        # Entry point & app factory
+│       │   ├── HDI.pkl                       # Pickled scikit-learn Linear Regression model
+│       │   ├── ml/                           # Machine Learning predictions module
+│       │   │   ├── __init__.py
+│       │   │   └── predictor.py              # Single/batch prediction & data validation
+│       │   ├── routes/                       # Flask blueprints (routes)
+│       │   │   ├── home.py                   # Landing page Blueprint
+│       │   │   ├── predict.py                # Prediction and APIs blueprint
+│       │   │   └── about.py                  # Technology stack Blueprint
+│       │   ├── static/                       # CSS, Javascript assets, Logo, Templates
+│       │   └── templates/                    # Jinja2 HTML layouts (Galaxy themed)
+│       │
+│       └── Training/                         # Model development and notebooks
+│           └── HumDevIndex.ipynb             # Jupyter Notebook for preprocessing & training
+│
+├── 6.Project Testing/                        # Phase 6: Performance tests & compliance reports
+│   ├── Performance Testing Report.pdf
+│   └── Solution Requirements.pdf
+│
+├── 7.Project Documentation/                  # Phase 7: Project final documentation
+│   ├── Final Report Template.pdf
+│   └── project Executables & Documentation.pdf
+│
+├── 8.Project Demonstration/                  # Phase 8: Demonstration plans & channels
+│   ├── Communication channel.pdf
+│   ├── Demonstration Proposed Features.pdf
+│   └── Project demo planning .pdf
+│
+└── README.md                                 # Project README (This file)
+```
+
+---
+
+## ✨ Application Features
 
 | Feature | Details |
 |---|---|
-| **Single Prediction** | Life Expectancy, Expected Schooling, Mean Schooling, GNI per Capita |
-| **Batch Prediction** | Upload a CSV and predict for multiple countries at once |
-| **Country Auto-fill** | Select a country to pre-populate all indicator fields |
-| **Visual Results** | Radar chart (component indices), bar chart (feature contribution) |
-| **Galaxy UI** | Animated starfield, nebula backgrounds, shooting stars |
-| **Responsive** | Works on mobile, tablet, and desktop |
+| **Single Prediction** | Input Life Expectancy, Expected Schooling, Mean Schooling, and GNI per Capita to instantly estimate the HDI. |
+| **Batch CSV Prediction** | Drag and drop a CSV file to evaluate predictions for multiple nations at once. |
+| **Country Auto-fill** | Populate standard indicators instantly from a database of 190+ countries. |
+| **Visual Charting** | Radar charts showing relative index scores and bar charts highlighting input deviations. |
+| **Galaxy UI** | CSS-animated starfield, twinkling animations, nebulas, and glowing glassmorphic panels. |
+| **Full Responsiveness** | Fully compatible across mobile, tablet, and desktop viewports. |
 
 ---
 
-## 🗂️ Project Structure
+## 🧠 Machine Learning Model Details
 
-```
-ML - 0027 - Human Development Index/
-│
-├── Flask/                          # ← Web application root
-│   ├── app.py                      # Flask app factory & entry point
-│   ├── HDI.pkl                     # Trained Linear Regression model
-│   │
-│   ├── ml/                         # Machine learning module
-│   │   ├── __init__.py
-│   │   └── predictor.py            # Prediction logic, HDI classification
-│   │
-│   ├── routes/                     # Flask blueprints
-│   │   ├── home.py                 # Home page route
-│   │   ├── predict.py              # Prediction API & form handling
-│   │   └── about.py                # About page route
-│   │
-│   ├── templates/                  # Jinja2 HTML templates
-│   │   ├── base.html               # Layout shell (nav, footer, stars)
-│   │   ├── index.html              # Home / landing page
-│   │   ├── predict.html            # Prediction form page
-│   │   ├── result.html             # Prediction results page
-│   │   └── about.html              # About / tech stack page
-│   │
-│   └── static/
-│       ├── css/style.css           # Galaxy theme stylesheet
-│       ├── js/
-│       │   ├── predict.js          # Form logic, country auto-fill, CSV
-│       │   ├── charts.js           # Chart.js chart rendering
-│       │   └── result.js           # Results page animations
-│       ├── data/hdi_template.csv   # CSV upload template
-│       └── hdi_logo.png            # HDI brand logo
-│
-├── Dataset/                        # Raw HDI datasets (CSV)
-├── Training/                       # Model training notebooks / scripts
-└── README.md                       # This file
-```
+The ML model trained for this solution is a **Linear Regression** model, which fits the standard United Nations calculation methodology perfectly.
+
+| Property | Value |
+|---|---|
+| **Algorithm** | Linear Regression (`sklearn.linear_model.LinearRegression`) |
+| **R² Score** | **0.9582** |
+| **Mean Absolute Error (MAE)** | **0.0216** |
+| **Root Mean Squared Error (RMSE)** | **0.0326** |
+| **Mean Squared Error (MSE)** | **0.0011** |
+| **Data Split** | 80% Train (156 samples), 20% Test (39 samples) |
+| **Input Features** | Life Expectancy, Expected Schooling, Mean Schooling, GNI Per Capita |
+| **Target Variable** | Human Development Index (2021) |
+| **Model Serialization** | Python Pickle (`HDI.pkl`) |
+
+### Input Feature Metrics
+- **Life Expectancy at Birth (2021)**: Estimated range 40 – 90 years.
+- **Expected Years of Schooling (2021)**: Average years of school expected, range 0 – 25 years.
+- **Mean Years of Schooling (2021)**: Average years of school completed, range 0 – 15 years.
+- **Gross National Income Per Capita (2021)**: Log-transformed income indices, range 100 – 100,000+ USD.
+
+### Output Tier Classification
+- **Very High Development**: HDI Score $\ge$ 0.800
+- **High Development**: HDI Score between 0.700 and 0.799
+- **Medium Development**: HDI Score between 0.550 and 0.699
+- **Low Development**: HDI Score < 0.550
 
 ---
 
-## ⚙️ Prerequisites
+## 🛠️ Technology Stack
 
-Make sure you have the following installed:
-
-- **Python 3.9 or higher** — [Download](https://python.org/downloads)
-- **pip** (comes with Python)
-- **Git** — [Download](https://git-scm.com)
+- **Backend**: Flask (Python 3.x)
+- **Machine Learning**: Scikit-learn, Pandas, NumPy, Seaborn (for EDA heatmaps)
+- **Frontend CSS**: Tailwind CSS (CDN-delivered utility framework)
+- **Visualization**: Chart.js 4.x (Radar and Bar charts)
+- **Typography**: Google Fonts (Plus Jakarta Sans)
+- **Serialization**: Python standard `pickle`
 
 ---
 
-## 🚀 Quick Start
+## ⚙️ Setup and Running Guide
+
+Follow these steps to set up and run the project locally.
 
 ### 1 · Clone the Repository
-
 ```bash
 git clone https://github.com/pspvv/HDI.git
 cd HDI
 ```
 
-### 2 · Create a Virtual Environment
-
+### 2 · Create and Activate a Virtual Environment
 ```bash
 # Windows
 python -m venv venv
@@ -113,170 +175,40 @@ source venv/bin/activate
 ```
 
 ### 3 · Install Dependencies
-
+Install all required libraries using pip:
 ```bash
-pip install flask scikit-learn pandas numpy
+pip install flask scikit-learn pandas numpy matplotlib seaborn
 ```
 
-> **Tip:** If a `requirements.txt` is present, use `pip install -r requirements.txt` instead.
-
-### 4 · Run the App
-
+### 4 · Run the Web Server
+Navigate to the Flask application path inside **Phase 5** and run the entrypoint:
 ```bash
-cd Flask
+cd "5. Project Development Phase\Human Development Index Code Files\Flask"
 python app.py
 ```
 
-You should see:
-
-```
-============================================================
-HDI Predictor Web Application
-============================================================
-
-[OK] Model loaded successfully!
-[OK] Flask app initialized successfully!
-[OK] Starting server at http://localhost:5000
-
-Press Ctrl+C to stop the server
-```
-
 ### 5 · Open in Browser
-
-```
-http://localhost:5000
-```
+Visit `http://localhost:5000` to interact with the application.
 
 ---
 
-## 📦 Creating `requirements.txt`
-
-To generate a `requirements.txt` for others (run inside your activated venv):
-
-```bash
-pip freeze > requirements.txt
-```
-
-At minimum, the app requires:
-
-```
-flask>=3.0
-scikit-learn>=1.3
-pandas>=2.0
-numpy>=1.24
-```
-
----
-
-## 🧠 Model Details
-
-| Property | Value |
-|---|---|
-| Algorithm | Linear Regression |
-| R² Score | **0.9582** |
-| MAE | 0.0216 |
-| RMSE | 0.0326 |
-| MSE | 0.0011 |
-| Training Data | UN HDI Dataset (190+ countries) |
-| Model File | `Flask/HDI.pkl` |
-
-### Input Features
-
-| Feature | Unit | Typical Range |
-|---|---|---|
-| Life Expectancy at Birth | Years | 40 – 90 |
-| Expected Years of Schooling | Years | 0 – 25 |
-| Mean Years of Schooling | Years | 0 – 15 |
-| GNI Per Capita (PPP) | USD | 100 – 200,000+ |
-
-### Output Classes
-
-| HDI Score | Classification |
-|---|---|
-| ≥ 0.800 | 🟢 Very High Development |
-| 0.700 – 0.799 | 🔵 High Development |
-| 0.550 – 0.699 | 🟡 Medium Development |
-| < 0.550 | 🔴 Low Development |
-
----
-
-## 📋 Batch CSV Prediction
-
-To predict HDI for multiple countries at once:
-
-1. Go to the **Predict** page and scroll to **Batch CSV Prediction**
-2. Download the template from: `Flask/static/data/hdi_template.csv`
-3. Fill in your data with these exact column names:
-
-```
-Country, Life Expectancy, Expected Schooling, Mean Schooling, GNI per Capita
-```
-
-4. Drag and drop (or click to upload) your CSV file
-5. Results appear in a table you can download
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Backend | Flask (Python) |
-| Machine Learning | Scikit-learn, Pandas, NumPy |
-| Frontend | HTML5, Tailwind CSS (CDN) |
-| Charts | Chart.js 4.x |
-| Fonts | Plus Jakarta Sans (Google Fonts) |
-| Model Storage | Python pickle (`.pkl`) |
-
----
-
-## 🌐 API Routes
+## 🌐 API Routes Reference
 
 | Route | Method | Description |
 |---|---|---|
-| `/` | GET | Home / landing page |
-| `/predict` | GET | Prediction form |
-| `/predict` | POST | Submit indicators → results |
-| `/about` | GET | About page & model info |
-| `/api/countries` | GET | JSON list of all countries |
-
----
-
-## 🖼️ UI Theme — Galaxy Mode
-
-The app runs in a permanent **galaxy / deep-space theme**:
-
-- 🌌 Deep space background (`#05040f`) with purple/blue nebula radial clouds
-- ⭐ 45+ CSS star points across 3 size layers with a twinkling animation
-- 🌠 3 animated shooting stars
-- 🌫️ Diagonal Milky Way band overlay
-- 🔮 Glassmorphism cards with violet borders & glow on hover
-- 💜 Violet accent color (`#a78bfa`) throughout buttons, links, and headings
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "Add your feature"`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a Pull Request
+| `/` | GET | Home landing page |
+| `/predict` | GET/POST | Single prediction form input and response renderer |
+| `/about` | GET | Technical stack details & about section |
+| `/api/countries` | GET | Fetches pre-populated country indicators list from `HDI_Cleaned.csv` |
+| `/api/predict` | POST | Expects JSON payload and returns prediction estimates |
+| `/api/predict/csv` | POST | Expects multipart CSV file for batch updates |
 
 ---
 
 ## 👤 Author
-
-**Sandeep** — [GitHub](https://github.com/pspvv)
+- **Sandeep** — [GitHub Profile](https://github.com/pspvv)
 
 ---
 
 ## 📄 License
-
 This project is licensed under the **MIT License**.
-
----
-
-<div align="center">
-  <sub>Built with 💜 and machine learning</sub>
-</div>
